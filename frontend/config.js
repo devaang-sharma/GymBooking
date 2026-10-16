@@ -1,1 +1,1 @@
-export const API_URL = 'gymbooking-production-a366.up.railway.app';
+export const API_URL = 'https://gymbooking-production-a366.up.railway.app';
