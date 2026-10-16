@@ -76,3 +76,24 @@ export function setFieldError(input, message) {
   input.setAttribute('aria-describedby', p.id);
   input.after(p);
 }
+
+// tiny DOM builder: el('p', { textContent: 'hi', class: 'x' }, child1, 'text')
+export function el(tag, props = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(props)) {
+    if (key === 'class') node.className = value;
+    else if (key in node) node[key] = value;
+    else node.setAttribute(key, value);
+  }
+  node.append(...children);
+  return node;
+}
+
+const timeFmt = new Intl.DateTimeFormat('en-IN', {
+  weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
+  hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata',
+});
+
+export function formatTime(iso) {
+  return timeFmt.format(new Date(iso));
+}
