@@ -45,7 +45,7 @@ npm run seed             # 2 admins, 3 members, no sessions
 npm run dev
 ```
 
-`npm run seed:demo` loads demo data instead: sessions over three days, one of them full, with a waitlist.
+
 
 Frontend:
 
