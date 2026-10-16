@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
-import query  from '../db.js';
+import { query }  from '../db.js';
 import { AppError } from '../utils/AppError.js';
 import jwt from 'jsonwebtoken';
 import { config } from '../config.js';
 
 
-async function registerUser({ name, email, password }) {
+export async function registerUser({ name, email, password }) {
   const passwordHash = await bcrypt.hash(password, 10);
 
   try {
@@ -52,4 +52,3 @@ export async function loginUser({ email, password }) {
 }
 
 
-module.exports = { registerUser, loginUser };

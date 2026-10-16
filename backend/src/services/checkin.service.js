@@ -2,7 +2,7 @@ import { query } from '../db.js';
 import { AppError } from '../utils/AppError.js';
 
 export async function checkIn(code) {
-  // one atomic statement: every rule is in the WHERE clause
+  
   const done = await query(
     `WITH done AS (
        UPDATE bookings b SET checked_in_at = now()
@@ -21,7 +21,7 @@ export async function checkIn(code) {
   );
   if (done.rowCount === 1) return done.rows[0];
 
-  // nothing updated: find out why, so the admin gets a useful answer
+  // trying to find what went wrong
   const r = await query(
     `SELECT b.status, b.checked_in_at, s.start_time
      FROM bookings b JOIN sessions s ON s.id = b.session_id

@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 import authRoutes from './routes/auth.routes.js';
+import sessionRoutes from './routes/session.routes.js';
+import bookingRoutes from './routes/booking.routes.js';
+import checkinRoutes from './routes/checkin.routes.js';
 
 const app = express();
 

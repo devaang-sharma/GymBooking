@@ -5,7 +5,7 @@ import { validate } from '../middleware/validate.js';
 import { createSessionSchema, listQuerySchema } from '../schemas/session.schema.js';
 import { idParamSchema } from '../schemas/booking.schema.js';
 import * as sessionService from '../services/session.service.js';
-import bookingService from '../services/booking.service.js';
+import * as bookingService from '../services/booking.service.js';
 import * as waitlistService from '../services/waitlist.service.js'
 
 const sessionRoutes = express.Router();
