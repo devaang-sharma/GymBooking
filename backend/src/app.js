@@ -10,7 +10,8 @@ app.use(express.json());
 
 app.use('/auth', authRoutes)
 app.use('/sessions', sessionRoutes)
-
+app.use('/bookings', bookingRoutes)
+app.use('/checkin', checkinRoutes)
 //health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });

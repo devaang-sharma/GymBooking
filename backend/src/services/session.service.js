@@ -27,17 +27,27 @@ export async function createSession({ date, hour }, userId) {
   }
 }
 
-export async function listSessions({ isAdmin, date }) {
+export async function listSessions({ isAdmin, date, userId }) {
   const result = await query(
     `SELECT s.id, s.start_time, s.capacity, s.created_by,
-            (s.capacity - COUNT(b.id) FILTER (WHERE b.status = 'confirmed'))::int AS seats_left
+            (s.capacity - COUNT(b.id) FILTER (WHERE b.status = 'confirmed'))::int AS seats_left,
+            MAX(b.id) FILTER (WHERE b.status = 'confirmed' AND b.user_id = $3::int) AS my_booking_id,
+            EXISTS (
+              SELECT 1 FROM waitlist w
+              WHERE w.session_id = s.id AND w.user_id = $3::int
+            ) AS on_waitlist
      FROM sessions s
      LEFT JOIN bookings b ON b.session_id = s.id
      WHERE ($1::boolean OR s.start_time > now())
        AND ($2::date IS NULL OR (s.start_time AT TIME ZONE '${GYM_TZ}')::date = $2::date)
      GROUP BY s.id
      ORDER BY s.start_time ASC`,
-    [isAdmin, date ?? null]
+    [isAdmin, date ?? null, userId]
   );
-  return result.rows;
+
+  return result.rows.map(({ my_booking_id, on_waitlist, ...session }) => ({
+    ...session,
+    my_status: my_booking_id ? 'booked' : on_waitlist ? 'waitlisted' : 'none',
+    my_booking_id: my_booking_id ?? null,
+  }));
 }
