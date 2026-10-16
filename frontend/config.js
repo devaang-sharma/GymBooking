@@ -1,1 +1,1 @@
-export const API_URL = 'http://localhost:3000';
+export const API_URL = 'gymbooking-production-a366.up.railway.app';
